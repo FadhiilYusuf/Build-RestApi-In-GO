@@ -1,0 +1,142 @@
+basePath: /
+definitions:
+  models.Item:
+    properties:
+      description:
+        example: This is the description of the item
+        type: string
+      item_code:
+        example: A12B3C
+        type: string
+      line_item_id:
+        type: integer
+      quantity:
+        example: 10
+        type: integer
+    type: object
+  models.Order:
+    properties:
+      customer_name:
+        example: Budi
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/models.Item'
+        type: array
+      ordered_at:
+        example: "2022-10-07T21:39:28.165117+07:00"
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: suryaaasaputra.s@gmail.com
+    name: API Support
+  description: This is a service for managing orders
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Orders API
+  version: "1.0"
+paths:
+  /orders:
+    get:
+      consumes:
+      - application/json
+      description: Get all orders
+      operationId: get-all-orders
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+      summary: Get list of all orders
+      tags:
+      - order
+    post:
+      consumes:
+      - application/json
+      description: Create a new order with the input payload
+      operationId: create-order
+      parameters:
+      - description: Create Order
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Order'
+      summary: Create a new order
+      tags:
+      - orders
+  /orders/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an order by id
+      operationId: delete-order-by-id
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+      summary: Delete an order by id
+      tags:
+      - orders
+    get:
+      consumes:
+      - application/json
+      description: Get an order data by id
+      operationId: get-order-by-id
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+      summary: Get an order data by id
+      tags:
+      - orders
+    put:
+      consumes:
+      - application/json
+      description: Update an order data by id with the input payload
+      operationId: update-order-by-id
+      parameters:
+      - description: Order ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Order Data
+        in: body
+        name: newdata
+        required: true
+        schema:
+          $ref: '#/definitions/models.Order'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+      summary: Update an order data by id
+      tags:
+      - orders
+swagger: "2.0"
